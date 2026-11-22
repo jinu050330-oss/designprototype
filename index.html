@@ -7,48 +7,32 @@
   <meta name="description" content="플렉스 센서의 굽힘 정도로 빛의 세기를 연속적으로 조절하는 조명, BEND.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400&family=Noto+Sans+KR:wght@400;500&display=swap">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <header class="site-header">
-    <a class="site-header__mark" href="#top" aria-label="BEND 처음으로">BEND</a>
-    <span class="site-header__meta">Flex Sensor Light</span>
+  <header class="nav">
+    <a class="nav__mark" href="#top">BEND</a>
+    <span class="nav__meta data">150 × 150 × 390 mm</span>
   </header>
 
   <main id="top">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__copy">
-        <p class="hero__eyebrow">정해진 단계에서 벗어난 자유로운 밝기 조절</p>
-        <div>
-          <h1 class="hero__title" id="hero-title">Shape<br>Your<br><em>Light.</em></h1>
-          <p class="hero__lead">구부리는 정도에 따라 빛의 세기가 변화하는 직관적인 아날로그 인터랙션.</p>
-          <dl class="hero__facts">
-            <div><dt>Size</dt><dd>150 × 150 × 390 mm</dd></div>
-            <div><dt>Frame</dt><dd>Aluminum Profile</dd></div>
-          </dl>
-        </div>
+        <p class="hero__tagline caption">Shape Your Light.</p>
+        <h1 class="hero__title display" id="hero-title">BEND</h1>
+        <p class="hero__lead body-lg">구부리는 정도에 따라 빛의 세기가 변화하는 직관적인 아날로그 인터랙션.</p>
+        <ul class="hero__tags caption" aria-label="제품 특징">
+          <li>플렉스 센서</li>
+          <li>연속 밝기 조절</li>
+          <li>알루미늄 프로파일</li>
+        </ul>
       </div>
-
-      <figure class="hero__product">
-        <img id="hero-lamp" src="assets/hero-lamp.jpg" width="896" height="1195" alt="알루미늄 프레임 안에서 중앙 코어가 푸른빛으로 켜진 실버 색상의 BEND 조명">
+      <figure class="hero__image">
+        <img src="assets/hero-lamp.jpg" width="896" height="1195" alt="알루미늄 프레임 안에서 중앙 코어가 푸른빛으로 켜진 실버 색상의 BEND 조명">
       </figure>
-
-      <div class="hero__stage">
-        <div class="hero__status">
-          <span class="hero__mode">Demo Mode · 가상 센서 값</span>
-          <div class="hero__readout">
-            <output id="level" aria-hidden="true">0.00</output>
-            <span class="hero__data"><span id="angle">0°</span> / RAW <span id="raw">250</span></span>
-          </div>
-        </div>
-        <canvas class="hero__canvas" id="wave" tabindex="0" role="slider" aria-label="가상 센서 굽힘 각도" aria-valuemin="0" aria-valuemax="90" aria-valuenow="0" aria-valuetext="0도, 레벨 0.00"></canvas>
-        <p class="hero__hint">조형을 드래그해 빛을 구부려 보세요</p>
-      </div>
     </section>
   </main>
-
-  <script src="js/hero-wave.js"></script>
 </body>
 </html>
