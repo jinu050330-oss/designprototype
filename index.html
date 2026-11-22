@@ -7,14 +7,20 @@
   <meta name="description" content="플렉스 센서의 굽힘 정도로 빛의 세기를 연속적으로 조절하는 조명, BEND.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400&family=Noto+Sans+KR:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500&display=swap">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <header class="nav">
     <a class="nav__mark" href="#top">BEND</a>
-    <span class="nav__meta data">150 × 150 × 390 mm</span>
+    <nav class="nav__links" aria-label="페이지 섹션">
+      <a href="#experience">체험</a>
+      <a href="#scenes">사용 장면</a>
+      <a href="#material">소재</a>
+      <a href="#color">컬러</a>
+      <a href="#spec">사양</a>
+    </nav>
   </header>
 
   <main id="top">
@@ -33,6 +39,161 @@
         <img src="assets/hero-lamp.jpg" width="896" height="1195" alt="알루미늄 프레임 안에서 중앙 코어가 푸른빛으로 켜진 실버 색상의 BEND 조명">
       </figure>
     </section>
+
+    <section class="section split" aria-labelledby="problem-title">
+      <div>
+        <p class="eyebrow caption">Problem</p>
+        <h2 class="h1" id="problem-title">정해진 단계의<br>빛</h2>
+      </div>
+      <div class="split__body">
+        <p class="body-lg">정해진 밝기 단계로는 사용자가 원하는 빛을 섬세하게 표현하기 어렵다.</p>
+        <div class="steps" role="img" aria-label="밝기가 다섯 단계로 끊겨 있는 막대">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <p class="caption steps__label">고정된 단계 사이의 빛은 고를 수 없다</p>
+      </div>
+    </section>
+
+    <section class="section split" aria-labelledby="solution-title">
+      <div>
+        <p class="eyebrow caption">Solution</p>
+        <h2 class="h1" id="solution-title">굽힘이<br>밝기가 된다</h2>
+      </div>
+      <div class="split__body">
+        <p class="body-lg">플렉스 센서의 굽힘 정도를 밝기 값으로 변환하여, 사용자가 원하는 빛의 세기를 연속적으로 조절할 수 있도록 한다.</p>
+        <div class="ramp" role="img" aria-label="어두운 색에서 밝은 색으로 끊김 없이 이어지는 막대"></div>
+        <ol class="flow">
+          <li><span class="caption">입력</span><b>구부림</b></li>
+          <li><span class="caption">변환</span><b>센서 값</b></li>
+          <li><span class="caption">출력</span><b>빛의 세기</b></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="experience" id="experience" aria-labelledby="experience-title">
+      <div class="panel">
+        <div>
+          <p class="panel__mode caption">Demo Mode · 가상 센서 값</p>
+          <h2 class="h2" id="experience-title">직접 구부려 보세요</h2>
+        </div>
+
+        <div class="readout">
+          <output class="readout__level" id="level">0.50</output>
+          <dl class="readout__data data">
+            <div><dt>각도</dt><dd id="angle">45°</dd></div>
+            <div><dt>RAW</dt><dd id="raw">500</dd></div>
+          </dl>
+        </div>
+
+        <div class="presets" role="group" aria-label="빛 프리셋">
+          <button type="button" data-angle="0" aria-pressed="false">꺼짐<span>0.00</span></button>
+          <button type="button" data-angle="20" aria-pressed="false">휴식<span>0.22</span></button>
+          <button type="button" data-angle="45" aria-pressed="true">거실<span>0.50</span></button>
+          <button type="button" data-angle="75" aria-pressed="false">집중<span>0.83</span></button>
+          <button type="button" data-angle="90" aria-pressed="false">최대<span>1.00</span></button>
+        </div>
+
+        <div class="controls">
+          <label><span>Wave Intensity <output id="intensity-value">1.00</output></span><input id="intensity" type="range" min="0.25" max="1" step="0.01" value="1"></label>
+          <label><span>Frequency <output id="frequency-value">1.50</output></span><input id="frequency" type="range" min="0.5" max="3" step="0.05" value="1.5"></label>
+          <label><span>Motion Response <output id="response-value">0.25</output></span><input id="response" type="range" min="0.05" max="0.5" step="0.01" value="0.25"></label>
+          <button class="auto" id="auto" type="button" aria-pressed="false">자동 데모</button>
+        </div>
+      </div>
+
+      <div class="sculpture">
+        <canvas id="wave" tabindex="0" role="slider" aria-label="가상 센서 굽힘 각도" aria-valuemin="0" aria-valuemax="90" aria-valuenow="45" aria-valuetext="45도, 레벨 0.50"></canvas>
+        <p class="sculpture__hint caption">조형을 드래그하거나 방향키로 구부리기</p>
+      </div>
+    </section>
+
+    <section class="section" id="scenes" aria-labelledby="scenes-title">
+      <p class="eyebrow caption">Scenes</p>
+      <h2 class="h1" id="scenes-title">공간마다 다른 빛</h2>
+      <div class="scenes">
+        <figure>
+          <img src="assets/desk.jpg" width="896" height="1195" loading="lazy" alt="책상에서 노트북으로 작업하는 사람 옆에 켜져 있는 BEND 조명">
+          <figcaption><b>데스크</b><span>노트북으로 집중할 때, 밝고 또렷한 빛</span></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/living.jpg" width="896" height="1195" loading="lazy" alt="소파가 보이는 거실의 나무 테이블 위에 놓인 BEND 조명">
+          <figcaption><b>거실</b><span>소파 옆에서 편하게 머물 때, 은은한 빛</span></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/carry.jpg" width="896" height="1195" loading="lazy" alt="한 손으로 BEND 조명의 프레임을 잡고 걸어가는 사람">
+          <figcaption><b>이동</b><span>다른 공간으로 옮길 때, 공간에 맞춘 빛</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="material" aria-labelledby="material-title">
+      <div class="split split--flush">
+        <div>
+          <p class="eyebrow caption">Material</p>
+          <h2 class="h1" id="material-title">소재와 구조</h2>
+        </div>
+        <p class="body-lg split__body">알루미늄 프로파일 프레임 안에 발광 코어를 두고, 양 끝을 엔드캡으로 마감했다.</p>
+      </div>
+      <div class="pair">
+        <figure>
+          <img src="assets/detail.jpg" width="896" height="1195" loading="lazy" alt="알루미늄 프로파일과 내부 구조가 보이는 클로즈업">
+          <figcaption class="caption">알루미늄 프로파일</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/base-detail.jpg" width="442" height="591" loading="lazy" alt="프레임 네 방향이 만나는 코너 접합부 클로즈업">
+          <figcaption class="caption">코너 접합부</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section color" id="color" aria-labelledby="color-title">
+      <div class="color__copy">
+        <p class="eyebrow caption">Color</p>
+        <h2 class="h1" id="color-title">다섯 가지 컬러</h2>
+        <div class="finishes" role="radiogroup" aria-label="제품 컬러">
+          <button type="button" role="radio" aria-checked="true" data-finish="silver" data-name="실버"><i style="background:var(--finish-silver)"></i>실버</button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-finish="black" data-name="블랙"><i style="background:var(--finish-black)"></i>블랙</button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-finish="ivory" data-name="아이보리"><i style="background:var(--finish-ivory)"></i>아이보리</button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-finish="terracotta" data-name="테라코타"><i style="background:var(--finish-terracotta)"></i>테라코타</button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-finish="sage" data-name="세이지 그린"><i style="background:var(--finish-sage)"></i>세이지 그린</button>
+        </div>
+        <p class="data color__level">현재 센서 레벨 <span id="color-level">0.50</span></p>
+      </div>
+      <figure class="color__image">
+        <img id="finish-image" src="assets/finish-silver.jpg" width="800" height="1000" loading="lazy" alt="실버 색상의 BEND 조명">
+      </figure>
+    </section>
+
+    <section class="section spec" id="spec" aria-labelledby="spec-title">
+      <figure>
+        <img src="assets/sketch.jpg" width="848" height="1264" loading="lazy" alt="BEND의 구조 스케치와 150, 390 치수가 적힌 도면">
+      </figure>
+      <div>
+        <p class="eyebrow caption">Specification</p>
+        <h2 class="h1" id="spec-title">사양</h2>
+        <dl class="spec__table">
+          <div><dt>제품명</dt><dd>BEND</dd></div>
+          <div><dt>크기</dt><dd class="data">150 × 150 × 390 mm</dd></div>
+          <div><dt>프레임·끝단 여백</dt><dd class="data">15 mm</dd></div>
+          <div><dt>구조</dt><dd>알루미늄 프로파일 프레임, 발광 코어, 엔드캡</dd></div>
+          <div><dt>입력</dt><dd>플렉스 센서의 굽힘</dd></div>
+          <div><dt>출력</dt><dd>연속 밝기 조절</dd></div>
+          <div><dt>컬러</dt><dd>실버, 블랙, 아이보리, 테라코타, 세이지 그린</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <h2 class="h1" id="closing-title">빛은 더 이상 정해진 값이 아니라, 사용자의 선택에 따라 달라지는 경험이다.</h2>
+      <img src="assets/floating.jpg" width="928" height="1152" loading="lazy" alt="공중에 떠 있는 세이지 그린, 아이보리, 테라코타 색상의 BEND 조명">
+    </section>
   </main>
+
+  <footer class="foot caption">
+    <span>BEND — Shape Your Light.</span>
+    <span>이 페이지의 센서 값은 데모용 가상 값입니다.</span>
+  </footer>
+
+  <script src="js/app.js"></script>
 </body>
 </html>

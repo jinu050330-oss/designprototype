@@ -2,13 +2,9 @@
   const $ = (id) => document.getElementById(id);
   const canvas = $("wave");
   const ctx = canvas.getContext("2d");
-  const lamp = $("hero-lamp");
-
-  const INTENSITY = 1;
-  const FREQUENCY = 1.5;
-  const RESPONSE = 0.25;
-  const INTRO_RESPONSE = 0.035;
-  const START_ANGLE = 45;
+  const presets = [...document.querySelectorAll(".presets button")];
+  const finishes = [...document.querySelectorAll(".finishes button")];
+  const autoButton = $("auto");
 
   const styles = getComputedStyle(document.documentElement);
   const hex = (name) => {
@@ -24,6 +20,7 @@
 
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  const number = (id) => Number($(id).value);
 
   const color = (t, shade) => {
     let low = stops[0];
@@ -40,16 +37,33 @@
     return `rgb(${rgb.join(" ")})`;
   };
 
-  let target = START_ANGLE;
-  let shown = still ? START_ANGLE : 0;
-  let intro = !still;
+  let target = 45;
+  let shown = 45;
   let phase = 0;
   let last = performance.now();
   let frame = 0;
+  let clock = 0;
+  let auto = false;
   let drag = null;
+  let visible = true;
   let W = 0;
   let H = 0;
-  let visible = true;
+
+  const syncPresets = () => {
+    presets.forEach((button) => {
+      button.setAttribute("aria-pressed", String(Number(button.dataset.angle) === target));
+    });
+  };
+
+  const setTarget = (angle) => {
+    target = Math.round(clamp(angle, 0, 90));
+    syncPresets();
+  };
+
+  const stopAuto = () => {
+    auto = false;
+    autoButton.setAttribute("aria-pressed", "false");
+  };
 
   const resize = () => {
     const box = canvas.getBoundingClientRect();
@@ -59,11 +73,6 @@
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  };
-
-  const setTarget = (angle) => {
-    intro = false;
-    target = Math.round(clamp(angle, 0, 90));
   };
 
   const face = (a, b, c, d, fill) => {
@@ -88,6 +97,8 @@
     const cx = W / 2;
     const y0 = (H - 22.8 * u) / 2 + scale;
     const size = 0.82;
+    const intensity = number("intensity");
+    const frequency = number("frequency");
     const P = (i, j, z) => [cx + (i - j) * u, y0 + (i + j) * v - z];
 
     for (let sum = 0; sum <= 18; sum++) {
@@ -96,8 +107,8 @@
         const x = i + 0.09;
         const y = j + 0.09;
         const d = Math.hypot(i - 4.5, j - 4.5) / 6.364;
-        const wave = 0.5 + 0.5 * Math.sin(phase - 2 * Math.PI * FREQUENCY * d);
-        const height = clamp(0.12 + 0.28 * level + (0.08 + 0.52 * level) * INTENSITY * wave, 0, 1) * scale;
+        const wave = 0.5 + 0.5 * Math.sin(phase - 2 * Math.PI * frequency * d);
+        const height = clamp(0.12 + 0.28 * level + (0.08 + 0.52 * level) * intensity * wave, 0, 1) * scale;
         const tone = clamp(0.7 * level + 0.3 * wave * (0.35 + 0.65 * level), 0, 1);
         const a = P(x, y, height);
         const b = P(x + size, y, height);
@@ -117,33 +128,34 @@
     requestAnimationFrame(tick);
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!visible) return;
     frame++;
+    clock += dt;
 
-    const response = intro ? INTRO_RESPONSE : RESPONSE;
+    if (auto && !still) setTarget(45 + 34 * Math.sin(clock * 0.6));
+    const response = number("response");
     shown = still ? target : shown + (target - shown) * (1 - Math.pow(1 - response, dt * 60));
-    if (Math.abs(target - shown) < 0.05) {
-      shown = target;
-      intro = false;
-    }
+    if (Math.abs(target - shown) < 0.05) shown = target;
 
     const level = shown / 90;
+    const levelText = level.toFixed(2);
+    const angle = Math.round(shown);
+    $("color-level").textContent = levelText;
+    if (!visible) return;
+
     if (!still) phase = (phase + 2 * Math.PI * (0.25 + 1.25 * level) * dt) % (2 * Math.PI);
     render(level);
-
-    const angle = Math.round(shown);
-    lamp.style.setProperty("--level", level.toFixed(3));
-    $("level").textContent = level.toFixed(2);
+    $("level").textContent = levelText;
     $("angle").textContent = `${angle}°`;
     if (frame % 6 === 0) {
-      const noise = still ? 0 : Math.random() * 6 - 3;
+      const noise = still || shown === 0 || shown === 90 ? 0 : Math.random() * 6 - 3;
       $("raw").textContent = clamp(Math.round(250 + shown * 500 / 90 + noise), 250, 750);
     }
     canvas.setAttribute("aria-valuenow", String(angle));
-    canvas.setAttribute("aria-valuetext", `${angle}도, 레벨 ${level.toFixed(2)}`);
+    canvas.setAttribute("aria-valuetext", `${angle}도, 레벨 ${levelText}`);
   };
 
   canvas.addEventListener("pointerdown", (event) => {
+    stopAuto();
     drag = { x: event.clientX, y: event.clientY, angle: target };
     canvas.setPointerCapture?.(event.pointerId);
   });
@@ -167,7 +179,49 @@
     }[event.key];
     if (next === undefined) return;
     event.preventDefault();
+    stopAuto();
     setTarget(next);
+  });
+
+  presets.forEach((button) => {
+    button.addEventListener("click", () => {
+      stopAuto();
+      setTarget(Number(button.dataset.angle));
+    });
+  });
+
+  ["intensity", "frequency", "response"].forEach((id) => {
+    $(id).addEventListener("input", () => {
+      $(`${id}-value`).textContent = number(id).toFixed(2);
+    });
+  });
+
+  autoButton.addEventListener("click", () => {
+    auto = !auto;
+    autoButton.setAttribute("aria-pressed", String(auto));
+    clock = Math.asin(clamp((target - 45) / 34, -1, 1)) / 0.6;
+  });
+
+  const selectFinish = (button, focus) => {
+    finishes.forEach((item) => {
+      const active = item === button;
+      item.setAttribute("aria-checked", String(active));
+      item.tabIndex = active ? 0 : -1;
+    });
+    const image = $("finish-image");
+    image.src = `assets/finish-${button.dataset.finish}.jpg`;
+    image.alt = `${button.dataset.name} 색상의 BEND 조명`;
+    if (focus) button.focus();
+  };
+
+  finishes.forEach((button, index) => {
+    button.addEventListener("click", () => selectFinish(button));
+    button.addEventListener("keydown", (event) => {
+      const move = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[event.key];
+      if (!move) return;
+      event.preventDefault();
+      selectFinish(finishes[(index + move + finishes.length) % finishes.length], true);
+    });
   });
 
   new ResizeObserver(resize).observe(canvas);
