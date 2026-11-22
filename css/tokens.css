@@ -1,0 +1,78 @@
+/* BEND — generated from tokens.json */
+:root, [data-theme="light"] {
+  --surface: #F9F9F9;
+  --surface-raised: #EBEBEA;
+  --surface-stage: #D8D8D8;
+  --ink: #060606;
+  --ink-muted: #494846;
+  --ink-dim: #808080;
+  --line: #D8D8D8;
+  --line-strong: #767676;
+  --accent: #1551D9;
+  --on-accent: #FFFFFF;
+  --accent-tint: #C3DBFF;
+  --night: #0B1016;
+  --on-night: #F9F9F9;
+  --on-night-muted: #A9B2BD;
+  --wave-0: #12264F;
+  --wave-1: #1551D9;
+  --wave-2: #4A87FC;
+  --wave-3: #D1E3EF;
+  --light-core: #D1E3EF;
+  --light-warm: #FCF0D1;
+  --finish-silver: #C8C6C2;
+  --finish-black: #1E1E1A;
+  --finish-ivory: #D7CDBC;
+  --finish-terracotta: #9B553B;
+  --finish-sage: #9CA38E;
+}
+[data-theme="dark"] {
+  --surface: #060606;
+  --surface-raised: #141517;
+  --surface-stage: #252424;
+  --ink: #F9F9F9;
+  --ink-muted: #C8C8C8;
+  --ink-dim: #808080;
+  --line: #383838;
+  --line-strong: #949494;
+  --accent: #4A87FC;
+  --on-accent: #060606;
+  --accent-tint: #12264F;
+  --night: #0B1016;
+  --on-night: #F9F9F9;
+  --on-night-muted: #A9B2BD;
+  --wave-0: #12264F;
+  --wave-1: #1551D9;
+  --wave-2: #4A87FC;
+  --wave-3: #D1E3EF;
+  --light-core: #D1E3EF;
+  --light-warm: #FCF0D1;
+  --finish-silver: #C8C6C2;
+  --finish-black: #1E1E1A;
+  --finish-ivory: #D7CDBC;
+  --finish-terracotta: #9B553B;
+  --finish-sage: #9CA38E;
+}
+:root {
+  --space-5: 5px;
+  --space-10: 10px;
+  --space-15: 15px;
+  --space-30: 30px;
+  --space-45: 45px;
+  --space-60: 60px;
+  --space-90: 90px;
+  --space-150: 150px;
+  --radius-0: 0px;
+  --radius-2: 2px;
+  --font-sans: "Inter Tight", "Noto Sans KR", system-ui, sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, monospace;
+}
+.display { font-family: var(--font-sans); font-size: 120px; line-height: 0.92; font-weight: 500; letter-spacing: -0.04em; }
+.h1 { font-family: var(--font-sans); font-size: 64px; line-height: 1.05; font-weight: 500; letter-spacing: -0.03em; }
+.index-list { font-family: var(--font-sans); font-size: 48px; line-height: 1.08; font-weight: 500; letter-spacing: -0.025em; }
+.h2 { font-family: var(--font-sans); font-size: 32px; line-height: 1.2; font-weight: 500; letter-spacing: -0.02em; }
+.readout { font-family: var(--font-data); font-size: 64px; line-height: 1; font-weight: 500; letter-spacing: -0.04em; }
+.body-lg { font-family: var(--font-sans); font-size: 20px; line-height: 1.5; font-weight: 400; letter-spacing: -0.01em; }
+.body { font-family: var(--font-sans); font-size: 16px; line-height: 1.65; font-weight: 400; letter-spacing: 0; }
+.data { font-family: var(--font-data); font-size: 13px; line-height: 1.4; font-weight: 400; letter-spacing: 0; }
+.caption { font-family: var(--font-sans); font-size: 12px; line-height: 1.35; font-weight: 500; letter-spacing: 0.01em; }
